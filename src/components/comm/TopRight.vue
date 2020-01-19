@@ -80,8 +80,8 @@ export default {
 .rules:hover,
 .nav:hover {
   background: white;
-  box-shadow: -2px 0px 2px rgb(209, 206, 206), 0px -2px 0px rgb(209, 206, 206),
-    0px 0px 0px rgb(209, 206, 206), 2px 0px 2px rgb(209, 206, 206);
+  box-shadow: -3px 0px 5px rgba(0, 0, 0, 0.1), 0px -3px 5px rgba(0, 0, 0, 0.1),
+    0px 0px 0px rgba(0, 0, 0, 0), 3px 0px 5px rgba(0, 0, 0, 0.1);
 }
 // .my:hover,
 // .shop-center:hover, {
@@ -113,13 +113,13 @@ export default {
   z-index: 99999;
   background: white;
   border-radius: 0 0 5px 5px;
-  box-shadow: -2px 0 0 rgb(209, 206, 206),
+  box-shadow: -2px 0 0 rgba(0, 0, 0, 0.1),
     //左边阴影
-      0 0 0 rgb(209, 206, 206),
+      0 0 0 rgba(0, 0, 0, 0.1),
     //顶部阴影
-      0 2px 0 rgb(209, 206, 206),
+      0 2px 0 rgba(0, 0, 0, 0.1),
     //底部阴影
-      2px 0 0 rgb(209, 206, 206); //右边阴影
+      2px 0 0 rgba(0, 0, 0, 0.1); //右边阴影
 
   // box-showdow-only-top: 0px 0px 2px rgb(158, 158, 158);
 }
@@ -129,7 +129,7 @@ export default {
 .nav-de {
   max-width: 1190px;
   height: auto;
-
+  width: 1190px;
   min-width: 1080px;
 }
 .item-name:hover,

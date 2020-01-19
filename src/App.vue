@@ -3,11 +3,28 @@
     <router-view />
   </div>
 </template>
-
+<script>
+export default {
+  name: "",
+  components: {},
+  props: {},
+  data() {
+    return {};
+  },
+  methods: {},
+  beforeMount() {
+    this.$store.state.userInfo = JSON.parse(localStorage.getItem("loginMsg"));
+  },
+  mounted() {},
+  created() {},
+  filters: {},
+  computed: {},
+  watch: {},
+  directives: {}
+};
+</script>
 <style lang="scss">
-@import url("//at.alicdn.com/t/font_1608305_8c1ppzy69ry.css");
 #app {
-  height: 100vh;
   font-size: 16px;
 }
 li {

@@ -1,14 +1,29 @@
 <template>
-  <div>
-
+  <div class="container">
+   <div class="container-top">
+     <Top></Top>
+   </div>
+    <div class="container-center">
+      <RegisterCenter></RegisterCenter>
+    </div>
+    <div class="container-bottom">
+      <RegisterBottom></RegisterBottom>
+    </div>
   </div>
 
 </template>
 
 <script>
-    export default {
+    import Top from '../../components/register/Top'
+    import RegisterCenter from '../../components/register/Center'
+    import RegisterBottom from '../../components/register/RegisterBottom'
+        export default {
         name: "",
-        components: {},
+        components: {
+            Top,
+            RegisterCenter,
+            RegisterBottom,
+        },
         props: {},
         data() {
             return {}

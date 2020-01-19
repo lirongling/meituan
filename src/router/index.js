@@ -23,6 +23,19 @@ const routes = [{
         }],
     },
     {
+        path: "/changeCity",
+        component: Comm,
+        children: [{
+            path: '/',
+            name: "changeCity",
+            component: () =>
+                import ( /* webpackChunkName: "about" */ '../views/changecity/ChangeCity'),
+            meta: {
+                title: '首页'
+            }
+        }],
+    },
+    {
         path: "/orders",
         component: Comm,
         children: [{
@@ -49,13 +62,25 @@ const routes = [{
         }],
     },
     {
-        path: '/about',
-        name: 'about',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
+        path: '/login',
+        name: 'login',
+
         component: () =>
-            import ( /* webpackChunkName: "about" */ '../views/About.vue')
+            import ( /* webpackChunkName: "about" */ '../views/account/Login'),
+        meta: {
+            title: '登录'
+        }
+    }
+    ,
+    {
+        path: '/register',
+        name: 'register',
+
+        component: () =>
+            import ( /* webpackChunkName: "about" */ '../views/account/Register'),
+        meta: {
+            title: '注册'
+        }
     }
 ]
 

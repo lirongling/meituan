@@ -9,7 +9,7 @@
           </div>
         </div>
         <div class="food">
-          <div class="title">酒店旅游</div>
+          <div class="title">吃美食</div>
           <div class="defalut flex">
             <div class="item" v-for="(item,index) in foodList" :key="index">{{item}}</div>
           </div>
