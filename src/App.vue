@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <router-view />
+    <BackTop :height="100" :bottom="200">
+      <div class="top__">返回顶端</div>
+    </BackTop>
   </div>
 </template>
 <script>
@@ -14,6 +17,7 @@ export default {
   methods: {},
   beforeMount() {
     this.$store.state.userInfo = JSON.parse(localStorage.getItem("loginMsg"));
+    this.$store.state.city = JSON.parse(localStorage.getItem("city"));
   },
   mounted() {},
   created() {},
@@ -35,5 +39,12 @@ li {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+}
+.top__ {
+  padding: 10px;
+  background: rgba(0, 153, 229, 0.7);
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
 }
 </style>

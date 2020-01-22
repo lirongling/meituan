@@ -31,7 +31,33 @@ const routes = [{
             component: () =>
                 import ( /* webpackChunkName: "about" */ '../views/changecity/ChangeCity'),
             meta: {
-                title: '首页'
+                title: '切换城市'
+            }
+        }],
+    },
+    {
+        path: "/search",
+        component: Comm,
+        children: [{
+            path: '/',
+            name: "search",
+            component: () =>
+                import ( /* webpackChunkName: "about" */ '../views/search/Search'),
+            meta: {
+                title: '搜索'
+            }
+        }],
+    },
+    {
+        path: "/details",
+        component: Comm,
+        children: [{
+            path: '/',
+            name: "details",
+            component: () =>
+                import ( /* webpackChunkName: "about" */ '../views/details/Details'),
+            meta: {
+                title: '搜索'
             }
         }],
     },
@@ -70,8 +96,7 @@ const routes = [{
         meta: {
             title: '登录'
         }
-    }
-    ,
+    },
     {
         path: '/register',
         name: 'register',

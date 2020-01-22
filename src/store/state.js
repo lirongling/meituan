@@ -1,10 +1,14 @@
 export default {
     city: '',
-    userInfo:'',
+    userInfo: '',
     fromDate: {
         username: '',
         passwd: '',
         phone: '',
         code: '',
-    }
+
+    },
+    areas: [],
+    searchResult: [],
+    location: []
 }

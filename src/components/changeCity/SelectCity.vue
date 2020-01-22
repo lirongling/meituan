@@ -10,18 +10,10 @@
         class="flex"
       >
         <FormItem prop="province" label="按省份选择:">
-          <Select
-            v-model="formValidate.province"
-            placeholder="省份"
-            @on-change="change"
-            filterable
-            remote
-            :remote-method="remoteMethod1"
-            :loading="loading1"
-          >
+          <Select v-model="formValidate.province" placeholder="省份" @on-change="change">
             >
             <Option
-              v-for="(item, index) in options1"
+              v-for="(item, index) in provinceArr"
               :key="index"
               v-model="item.name"
             >{{ item.name}}</Option>
@@ -32,10 +24,7 @@
             v-model="formValidate.city"
             placeholder="城市"
             :disabled="disabled"
-            filterable
-            remote
-            :remote-method="remoteMethod2"
-            :loading="loading2"
+            @on-change="selectCity"
           >
             >
             <Option v-for="item in cities" :key="item.id" v-model="item.name">{{ item.name}}</Option>
@@ -46,7 +35,7 @@
         <h3 class="l-attr">直接搜索：</h3>
         <div style="margin-left: 6px">
           <!-- <Input suffix="ios-search" placeholder="请输入城市名" v-model="searchText" style="width: auto" /> -->
-          <Select v-model="searchRealut" filterable>
+          <Select v-model="searchRealut" filterable @on-change="selectCity">
             <Option v-for="(item,index) in city" :value="item" :key="index">{{ item }}</Option>
           </Select>
         </div>
@@ -129,6 +118,11 @@ export default {
           );
         }, 200);
       }
+    },
+    selectCity(val) {
+      this.$store.state.city = val;
+      localStorage.setItem("city", JSON.stringify(val));
+      this.$router.go(-1);
     }
     // // 切换城市
     // changeCity() {
@@ -136,11 +130,7 @@ export default {
     // }
   },
   mounted() {},
-  watch: {
-    "formValidate.city"(val) {
-      this.$store.state.city = val;
-    }
-  },
+  watch: {},
   computed: {}
 };
 </script>

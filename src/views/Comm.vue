@@ -5,7 +5,7 @@
         <div class="left flex">
           <div class="locaion">
             <span class="iconfont icon-location location-ico"></span>
-            <span class="city">{{city}}</span>
+            <span class="city">{{$store.state.city}}</span>
           </div>
           <div class="select-city flex" @click="changeCity">切换城市</div>
           <div class="areas flex">
@@ -65,8 +65,13 @@ export default {
         .position()
         .then(res => {
           if (res.code === 200) {
+            this.$store.state.location = JSON.parse(res.data).ip.split(",");
             this.city = JSON.parse(res.data).city.slice(0, -1);
-            this.$store.state.city = this.city;
+            if (this.$store.state.city.length > 0) {
+              this.city = this.$store.state.city;
+            } else {
+              this.$store.state.city = this.city;
+            }
             this.crumbs();
           }
         })
@@ -90,6 +95,7 @@ export default {
         .then(res => {
           if (res.code === 200) {
             this.areas = res.data.areas;
+            this.$store.state.areas = res.data.areas;
             // this.city = JSON.parse(res.data).city;
           }
         })
@@ -110,7 +116,9 @@ export default {
     },
     // 切换城市
     changeCity() {
-      this.$router.push("/changeCity");
+      if (this.$route.name !== "changeCity") {
+        this.$router.push("/changeCity");
+      }
     }
   },
   beforeMount() {
@@ -118,7 +126,14 @@ export default {
     this.loginMsg = JSON.parse(localStorage.getItem("loginMsg"));
   },
   mounted() {},
-  watch: {},
+  watch: {
+    "$store.state.city"(val) {
+      if (!JSON.stringify(this.areas).includes(val)) {
+        this.city = this.$store.state.city;
+        this.crumbs();
+      }
+    }
+  },
   computed: {}
 };
 </script>

@@ -16,18 +16,22 @@ export default {
         return service.get(`citys/${id}`)
     },
     // 用户注册
-    register({username, password, email}) {
+    register({ username, password, email }) {
         return service.post('/users/register ', {
             username,
             password,
             email,
         })
     },
-    login({username, password}) {
+    login({ username, password }) {
         return service.post('/users/login ', {
             username,
             password,
         })
+    },
+    // 商铺详情
+    products(shopName, city) {
+        return service.get(`/products?keyword=${shopName}&city=${city}`)
     },
     // 登录
     /**

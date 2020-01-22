@@ -2,7 +2,7 @@
   <div>
     <div class="clearfix flex">
       <div class="clearfix-logo flex">
-        <a href="//cd.meituan.com">
+        <a @click="returnHome">
           <img src="//s0.meituan.net/bs/fe-web-meituan/fa5f0f0/img/logo.png" alt="美团" />
         </a>
       </div>
@@ -14,11 +14,17 @@
           @focus="searchFocus(2)"
           @blur="searchFocus(-2)"
           v-model="searchText"
+          @keyup.enter="jumpSearch(searchText)"
         />
         <span class="search_btn flex">
           <Icon type="md-search" size="22" />
         </span>
-        <div class="search-suggest" :class="{'suggest-show' :count>0}" @mouseenter="searchFocus(1)" @mouseleave="searchFocus(-1)">
+        <div
+          class="search-suggest"
+          :class="{'suggest-show' :count>0}"
+          @mouseenter="searchFocus(1)"
+          @mouseleave="searchFocus(-1)"
+        >
           <div v-if="searchText.length===0">
             <div class="search-history">
               <div class="flex history-text">
@@ -34,13 +40,13 @@
             <div class="search-text" v-if="searchText===''">
               <h6 class="search-hot">热门搜索</h6>
               <div class="hot-search" v-for="(item,index) in hotList" :key="index">
-                <div class="hot-item" v-if="index<6">{{item.name}}</div>
+                <div class="hot-item" v-if="index<6" @click="jumpDe(item.name)">{{item.name}}</div>
               </div>
             </div>
           </div>
           <div v-else class="search-content">
             <div v-for="(item,index) in searchResult" :key="item.id">
-              <div class="search-item" v-if="index<10">{{item.name}}</div>
+              <div class="search-item" v-if="index<10" @click="jumpDe(item.name)">{{item.name}}</div>
             </div>
           </div>
         </div>
@@ -59,32 +65,35 @@ export default {
       searchResult: [],
       hotList: [],
       searchHistorys: [],
-      count:0
+      count: 0
     };
   },
   components: {},
   methods: {
     // 输入款获取失去焦点   搜索框鼠标移入移出事件
     searchFocus(num) {
-      this.count+=num;
+      this.count += num;
     },
-   
+
     // 删除搜索历史
-    delHistory(){
-      this.searchHistorys=[]
+    delHistory() {
+      this.searchHistorys = [];
       if (JSON.parse(localStorage.getItem("loginMsg"))) {
         let loginMsg = JSON.parse(localStorage.getItem("loginMsg"));
-         localStorage.setItem(`${loginMsg.username}_search`, JSON.stringify(this.searchHistorys));
-      }else{
+        localStorage.setItem(
+          `${loginMsg.username}_search`,
+          JSON.stringify(this.searchHistorys)
+        );
+      } else {
         localStorage.setItem("tourists", JSON.stringify(this.searchHistorys));
       }
     },
     // 添加搜索
-    addSearch(item){
-      this.searchText=item
+    addSearch(item) {
+      this.searchText = item;
       setTimeout(() => {
-        this.count=1
-      },200)
+        this.count = 1;
+      }, 200);
     },
     // 关键词搜索
     searchResults() {
@@ -104,6 +113,7 @@ export default {
           console.log(err);
         });
     },
+    // 获取本地热门搜索
     hotSearch() {
       this.$axios
         .req(`hotPlace?city=${this.$store.state.city}`)
@@ -111,7 +121,6 @@ export default {
           if (res.code === 200) {
             this.hotList = res.data.result;
           }
-
         })
         .catch(err => {
           console.log(err);
@@ -165,6 +174,21 @@ export default {
       } else {
         this.searchHistorys = JSON.parse(localStorage.getItem("tourists"));
       }
+    },
+    // 跳转到详情页
+    jumpDe(val) {
+      this.$router.push({ name: "details", query: { name: val } });
+    },
+    // 回车事件
+    jumpSearch(val) {
+      console.log(val);
+      this.$router.push({ name: "search", query: { searchText: val } });
+    },
+    // 返回首页
+    returnHome() {
+      if (this.$route.name !== "home") {
+        this.$router.push("/");
+      }
     }
   },
   mounted() {
@@ -201,7 +225,6 @@ export default {
 .clearfix {
   width: 100%;
   height: 122px;
-
 
   .clearfix-logo {
     width: 280px;
@@ -290,8 +313,8 @@ export default {
     display: block !important;
   }
 }
-.del-history:hover{
-cursor: pointer;
+.del-history:hover {
+  cursor: pointer;
 }
 .history {
   display: flex;
