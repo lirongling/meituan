@@ -18,7 +18,12 @@
         <div class="option-item">评价最高</div>
       </div>
       <div class="common-list-main" id="boxFixed">
-        <div v-for="(item,index) in searchResult" :key="index" class="list-item">
+        <div
+          v-for="(item,index) in searchResult"
+          :key="index"
+          class="list-item"
+          @click="jumpDe(item.name)"
+        >
           <Card :bordered="false">
             <SearchDe :ShopDe="item" :index="index"></SearchDe>
           </Card>
@@ -49,8 +54,13 @@ export default {
         document.body.scrollTop;
       //如果被卷曲的高度大于吸顶元素到顶端位置 的距离
       let a = parseInt((scrollTop - this.offsetTop) / 160.29);
-      if (a > 0 && this.searchResult[a]) {
-        this.$store.state.location = this.searchResult[a].location.split(",");
+      if (a >= 0 && this.searchResult[a] && a < this.searchResult.length) {
+        if (
+          this.$store.state.location !==
+          this.searchResult[a].location.split(",")
+        ) {
+          this.$store.state.location = this.searchResult[a].location.split(",");
+        }
       }
     },
     // 关键词搜索
@@ -61,14 +71,24 @@ export default {
         )
         .then(res => {
           if (res.code === 200) {
-            console.log(res);
             this.searchResult = res.data.pois;
             this.$store.state.searchResult = res.data.pois;
+            this.$store.state.recommendList = [];
+            res.data.pois.map(item => {
+              if (item.biz_ext.rating >= 4.5) {
+                this.$store.state.recommendList.push(item);
+              }
+            });
+            console.log(this.$store.state.recommendList);
           }
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    // 跳转到详情页
+    jumpDe(val) {
+      this.$router.push({ name: "details", query: { name: val } });
     }
   },
   mounted() {
@@ -131,6 +151,7 @@ export default {
     color: #333;
     font-size: 14px;
     line-height: 20px;
+    cursor: pointer;
   }
 }
 </style>

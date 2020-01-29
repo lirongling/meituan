@@ -10,5 +10,6 @@ export default {
     },
     areas: [],
     searchResult: [],
-    location: []
+    recommendList: [],
+    location: [],
 }

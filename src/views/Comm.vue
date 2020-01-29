@@ -65,7 +65,12 @@ export default {
         .position()
         .then(res => {
           if (res.code === 200) {
-            this.$store.state.location = JSON.parse(res.data).ip.split(",");
+            this.$store.state.location = [];
+            this.$store.state.location.push(
+              JSON.parse(res.data).ip.slice(0, 7)
+            );
+            this.$store.state.location.push(JSON.parse(res.data).ip.slice(8));
+            console.log(this.$store.state.location);
             this.city = JSON.parse(res.data).city.slice(0, -1);
             if (this.$store.state.city.length > 0) {
               this.city = this.$store.state.city;

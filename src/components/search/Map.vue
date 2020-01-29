@@ -34,10 +34,10 @@ export default {
       //如果被卷曲的高度大于吸顶元素到顶端位置 的距离
       this.isFixed = scrollTop + 218 > this.offsetTop ? true : false;
     },
-    getLocation() {
+    getLocation(val) {
       var map = new AMap.Map("container", {
         resizeEnable: true,
-        center: this.$store.state.location,
+        center: val,
         zoom: 10
       });
 
@@ -103,12 +103,13 @@ export default {
       this.offsetTop = document.querySelector("#boxFixed").offsetTop;
     });
     setTimeout(() => {
-      this.getLocation();
+      this.getLocation(this.$store.state.location);
     }, 1500);
   },
   watch: {
-    "$store.state.location": function(val) {
-      this.getLocation();
+    "$store.state.location"(val) {
+      // console.log(val);
+      this.getLocation(val);
     }
   },
   computed: {}

@@ -27,7 +27,12 @@
         </ul>
       </div>
       <div class="quality-area flex">
-        <div class="quality-item" v-for="(item,index) in searchResult" :key="index">
+        <div
+          class="quality-item"
+          v-for="(item,index) in searchResult"
+          :key="index"
+          @click="jumpDe(item.name)"
+        >
           <Card style="width:100%" :bordered="false">
             <div class="quality-img" v-if="item.photos.length>0">
               <img :src="item.photos[0].url" />
@@ -118,6 +123,10 @@ export default {
     getTag(tag, index) {
       let tags = tag.split(",");
       return tags[index];
+    },
+    // 跳转到详情页
+    jumpDe(val) {
+      this.$router.push({ name: "details", query: { name: val } });
     }
   },
 

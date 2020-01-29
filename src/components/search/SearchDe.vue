@@ -1,6 +1,7 @@
 <template>
   <div class="default-list-item flex">
     <div class="img">
+      <span class="top-number">{{index+1}}</span>
       <img :src="ShopDe.photos[0].url" v-if="ShopDe.photos.length>0" />
       <img
         src="https://img.meituan.net/phoenix/37ac7809abcd942e05aeb0e3add1fcba294604.jpg@740w_416h_1e_1c"
@@ -10,7 +11,7 @@
     <div class="list-item-desc">
       <div class="list-item-desc-top">
         <div class="list-title">{{ShopDe.name}}</div>
-        <div class="item-eval-info flex">
+        <div class="item-eval-info flex" v-if="ShopDe.biz_ext.rating.length>0">
           <div class="stars-wrapper">
             <Rate allow-half disabled :value="ShopDe.biz_ext.rating*1" />
           </div>
@@ -18,9 +19,11 @@
           <div class="rate-title">{{ShopDe.biz_ext.rating}}分</div>
           <div class="highlight">{{ShopDe.adcode}}人评价</div>
         </div>
+        <div v-else>暂无评价</div>
         <div class="address-info flex">
           <div class="cate-info ellipsis">{{ShopDe.type}}</div>
-          <div class="address ellipsis">{{ShopDe.address}}</div>
+          <div v-if="ShopDe.address.length>0" class="address ellipsis">{{ShopDe.address}}</div>
+          <div v-else class="address ellipsis">暂无提供地址</div>
           <div class="item-site-map flex">
             <Icon type="md-navigate" color="#FFCB00" size="15" />
             <span>查看地图</span>
@@ -99,6 +102,19 @@ export default {
   .img {
     height: 125px;
     width: 220px;
+    position: relative;
+    .top-number {
+      background: #fb6433;
+      border-radius: 2px;
+      position: absolute;
+      line-height: 13px;
+      width: 20px;
+      margin-left: -3px;
+      margin-top: 3px;
+      text-align: center;
+      font-size: 12px;
+      color: #fff;
+    }
     img {
       width: 100%;
       height: 100%;

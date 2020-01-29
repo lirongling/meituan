@@ -181,7 +181,7 @@ export default {
     },
     // 回车事件
     jumpSearch(val) {
-      console.log(val);
+      this.count=0;
       this.$router.push({ name: "search", query: { searchText: val } });
     },
     // 返回首页

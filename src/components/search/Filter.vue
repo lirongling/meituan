@@ -57,7 +57,7 @@
             <div>全部</div>
           </a>
         </div>
-        <div class="tags tagss flex">
+        <div class="tags tagss flex" v-if="areas.length>0">
           <div class="tags-item" v-for="(item,index) in areas" :key="index">
             <span>{{item.type}}</span>
             <Icon type="md-arrow-dropdown" v-if="item.module.length>0" />
