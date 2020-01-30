@@ -12,4 +12,6 @@ export default {
     searchResult: [],
     recommendList: [],
     location: [],
+    locations: [],
+    shopName: '',
 }

@@ -37,14 +37,17 @@
 import SearchDe from "../search/SearchDe";
 export default {
   data() {
-    return {
-      searchResult: []
-    };
+    return {};
   },
   components: {
     SearchDe
   },
-  props: {},
+  props: {
+    searchResult: {
+      type: Array,
+      default: () => []
+    }
+  },
   methods: {
     initHeight() {
       // 设置或获取位于对象最顶端和窗口中可见内容的最顶端之间的距离 (被卷曲的高度)
@@ -53,39 +56,19 @@ export default {
         document.documentElement.scrollTop ||
         document.body.scrollTop;
       //如果被卷曲的高度大于吸顶元素到顶端位置 的距离
-      let a = parseInt((scrollTop - this.offsetTop) / 160.29);
+      let a = Math.ceil((scrollTop - this.offsetTop) / 160.29) - 1;
       if (a >= 0 && this.searchResult[a] && a < this.searchResult.length) {
         if (
           this.$store.state.location !==
           this.searchResult[a].location.split(",")
         ) {
-          this.$store.state.location = this.searchResult[a].location.split(",");
+          this.$store.state.locations = this.searchResult[a].location.split(
+            ","
+          );
         }
       }
     },
-    // 关键词搜索
-    searchResults() {
-      this.$axios
-        .req(
-          `results?city=${this.$store.state.city}&keyword=${this.$route.query.searchText}`
-        )
-        .then(res => {
-          if (res.code === 200) {
-            this.searchResult = res.data.pois;
-            this.$store.state.searchResult = res.data.pois;
-            this.$store.state.recommendList = [];
-            res.data.pois.map(item => {
-              if (item.biz_ext.rating >= 4.5) {
-                this.$store.state.recommendList.push(item);
-              }
-            });
-            console.log(this.$store.state.recommendList);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+
     // 跳转到详情页
     jumpDe(val) {
       this.$router.push({ name: "details", query: { name: val } });
@@ -97,9 +80,6 @@ export default {
       //获取对象相对于版面或由 offsetTop 属性指定的父坐标的计算顶端位置
       this.offsetTop = document.querySelector("#boxFixed").offsetTop;
     });
-    setTimeout(() => {
-      this.searchResults();
-    }, 400);
   },
   //回调中移除监听
   destroyed() {

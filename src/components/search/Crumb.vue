@@ -3,11 +3,11 @@
     <div class="crumb flex">
       <Breadcrumb>
         <BreadcrumbItem to="/">{{$store.state.city}}</BreadcrumbItem>
+        <a @click="jumpSearchs(type)">
+          <BreadcrumbItem v-if="type.length>0">{{type}}</BreadcrumbItem>
+        </a>
         <BreadcrumbItem>{{shopName}}</BreadcrumbItem>
       </Breadcrumb>
-      <!-- <div class="crumb-item">{{$store.state.city}}</div>
-      <Icon type="ios-arrow-forward" />
-      <div class="crumb-item">{{searchText}}</div>-->
     </div>
   </div>
 </template>
@@ -24,9 +24,18 @@ export default {
     shopName: {
       type: String,
       default: ""
+    },
+    type: {
+      type: String,
+      default: ""
     }
   },
-  methods: {},
+  methods: {
+    // 更多相同类别
+    jumpSearchs(val) {
+      this.$router.push({ name: "search", query: { searchText: val } });
+    }
+  },
   beforeMount() {
     // this.searchText = this.$route.query.searchText;
   },

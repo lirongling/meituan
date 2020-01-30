@@ -19,7 +19,11 @@ export default {
     this.$store.state.userInfo = JSON.parse(localStorage.getItem("loginMsg"));
     this.$store.state.city = JSON.parse(localStorage.getItem("city"));
   },
-  mounted() {},
+  mounted() {
+    this.$router.afterEach((to, from, next) => {
+      window.scrollTo(0, 0);
+    });
+  },
   created() {},
   filters: {},
   computed: {},

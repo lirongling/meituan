@@ -19,11 +19,17 @@ export default {
   data() {
     return {
       isFixed: false,
-      offsetTop: 0
+      offsetTop: 0,
+      count: 0
     };
   },
   components: {},
-  props: {},
+  props: {
+    searchResult: {
+      type: Array,
+      default: () => []
+    }
+  },
   methods: {
     initHeight() {
       // 设置或获取位于对象最顶端和窗口中可见内容的最顶端之间的距离 (被卷曲的高度)
@@ -35,15 +41,23 @@ export default {
       this.isFixed = scrollTop + 218 > this.offsetTop ? true : false;
     },
     getLocation(val) {
-      var map = new AMap.Map("container", {
-        resizeEnable: true,
-        center: val,
-        zoom: 10
-      });
-
+      if (this.count > 1) {
+        var map = new AMap.Map("container", {
+          resizeEnable: true,
+          center: val,
+          zoom: 10
+        });
+      } else {
+        var map = new AMap.Map("container", {
+          resizeEnable: true,
+          center: this.searchResult[0].location.split(","),
+          zoom: 10
+        });
+      }
+      this.count++;
       map.clearMap(); // 清除地图覆盖物
       let markers = [];
-      this.$store.state.searchResult.map((item, index) => {
+      this.searchResult.map((item, index) => {
         let markerss = {
           icon: `//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-${index +
             1}.png`,
@@ -103,13 +117,14 @@ export default {
       this.offsetTop = document.querySelector("#boxFixed").offsetTop;
     });
     setTimeout(() => {
-      this.getLocation(this.$store.state.location);
-    }, 1500);
+      this.getLocation(this.$store.state.locations);
+    }, 1600);
   },
   watch: {
-    "$store.state.location"(val) {
-      // console.log(val);
-      this.getLocation(val);
+    "$store.state.locations"(val) {
+      if (this.searchResult) {
+        this.getLocation(val);
+      }
     }
   },
   computed: {}

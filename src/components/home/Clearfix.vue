@@ -21,7 +21,7 @@
         </span>
         <div
           class="search-suggest"
-          :class="{'suggest-show' :count>0}"
+          :class="{'suggest-show' :count>0&&keyup}"
           @mouseenter="searchFocus(1)"
           @mouseleave="searchFocus(-1)"
         >
@@ -65,7 +65,8 @@ export default {
       searchResult: [],
       hotList: [],
       searchHistorys: [],
-      count: 0
+      count: 0,
+      keyup: true
     };
   },
   components: {},
@@ -73,6 +74,7 @@ export default {
     // 输入款获取失去焦点   搜索框鼠标移入移出事件
     searchFocus(num) {
       this.count += num;
+      this.keyup = true;
     },
 
     // 删除搜索历史
@@ -177,12 +179,18 @@ export default {
     },
     // 跳转到详情页
     jumpDe(val) {
+      this.keyup = false;
       this.$router.push({ name: "details", query: { name: val } });
     },
     // 回车事件
     jumpSearch(val) {
-      this.count=0;
-      this.$router.push({ name: "search", query: { searchText: val } });
+      this.keyup = false;
+      if (val === this.$route.query.searchText) {
+        this.$router.go(0);
+      }
+      if (val.trim().length > 0) {
+        this.$router.push({ name: "search", query: { searchText: val } });
+      }
     },
     // 返回首页
     returnHome() {

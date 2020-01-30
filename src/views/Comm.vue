@@ -33,7 +33,7 @@
         <Clearfix></Clearfix>
       </div>
     </div>
-    <router-view></router-view>
+    <router-view :key="key"></router-view>
     <div class="comm-bottom">
       <Foot></Foot>
     </div>
@@ -70,7 +70,6 @@ export default {
               JSON.parse(res.data).ip.slice(0, 7)
             );
             this.$store.state.location.push(JSON.parse(res.data).ip.slice(8));
-            console.log(this.$store.state.location);
             this.city = JSON.parse(res.data).city.slice(0, -1);
             if (this.$store.state.city.length > 0) {
               this.city = this.$store.state.city;
@@ -139,7 +138,13 @@ export default {
       }
     }
   },
-  computed: {}
+  computed: {
+    key() {
+      return this.$route.name
+        ? this.$route.name + +new Date()
+        : this.$route + +new Date();
+    }
+  }
 };
 </script>
 
